@@ -1,252 +1,248 @@
 # NYC Payroll EDA: Compensation, Overtime, and High-Pay Prediction
 
+## Authors
+
+* **Brian Lyu (Student A)**
+  Responsible for:
+
+  * Project design & research questions
+  * Data cleaning & feature engineering
+  * Exploratory Data Analysis (EDA)
+
+* **Zien Zhu (Student B)**
+  Responsible for:
+
+  * Advanced analysis & interpretation
+  * Machine learning modeling & evaluation
+
+---
+
 ## Project Overview
 
-This project conducts an exploratory data analysis (EDA) of New York City employee payroll data to better understand compensation patterns across different agencies, job roles, and locations. The analysis focuses on how employee income is structured and how different factors relate to high compensation.
+This project conducts an exploratory data analysis (EDA) on New York City employee payroll data to understand how compensation is structured and what factors drive high earnings.
 
-The project combines **exploratory data analysis (EDA)** with a **lightweight machine learning task**. EDA is used to uncover patterns and relationships within the payroll data, while a simple classification model is built to test whether employee attributes can predict membership in a high-pay group.
+The project combines:
 
-The goal is to better understand how base salary, overtime pay, and other compensation components contribute to overall earnings in the NYC workforce.
+* **Exploratory Data Analysis (EDA)** to uncover patterns
+* **Lightweight Machine Learning** to validate predictive relationships
+
+The primary goal is to analyze how **base salary, overtime pay, and other compensation components** contribute to total income, and whether high compensation can be predicted from employee characteristics.
 
 ---
 
 ## Research Questions
 
-This project investigates three main questions:
+This project focuses on three core questions:
 
 1. **Compensation Structure**
-   How is employee compensation distributed across base salary, overtime pay, and other payments?
+   How is total compensation distributed across base salary, overtime pay, and other income sources?
 
 2. **Group Differences**
-   Do compensation patterns vary across agencies, boroughs, job titles, and pay basis types?
+   How do compensation patterns vary across:
+
+   * Agencies
+   * Boroughs
+   * Job titles
+   * Pay basis types
 
 3. **High-Pay Prediction**
-   Can employee characteristics such as salary, tenure, and overtime usage help predict whether an employee belongs to a high-pay group?
+   Can features such as salary, tenure, and overtime usage predict whether an employee belongs to a high-pay group?
 
 ---
 
 ## Dataset
 
-The dataset contains payroll information for **10,000 NYC employees** and includes **17 original variables** covering employee information, job details, and compensation components.
+The dataset includes payroll records for approximately **10,000 NYC employees**, with **17 variables** covering employee attributes and compensation details.
 
-Key variables include:
+### Key Variables
 
-| Variable              | Description                        |
-| --------------------- | ---------------------------------- |
-| fiscal_year           | Fiscal year of payroll record      |
-| agency_name           | Agency employing the worker        |
-| work_location_borough | Borough where the employee works   |
-| title_description     | Job title                          |
-| pay_basis             | Type of pay (annual, hourly, etc.) |
-| base_salary           | Base salary                        |
-| regular_hours         | Total regular working hours        |
-| regular_gross_paid    | Regular compensation paid          |
-| ot_hours              | Overtime hours worked              |
-| total_ot_paid         | Total overtime pay                 |
-| total_other_pay       | Other compensation payments        |
-| agency_start_date     | Start date at the agency           |
+| Variable              | Description              |
+| --------------------- | ------------------------ |
+| fiscal_year           | Fiscal year of record    |
+| agency_name           | Employer agency          |
+| work_location_borough | Work location            |
+| title_description     | Job title                |
+| pay_basis             | Pay type (annual/hourly) |
+| base_salary           | Base salary              |
+| regular_hours         | Regular hours worked     |
+| regular_gross_paid    | Regular pay              |
+| ot_hours              | Overtime hours           |
+| total_ot_paid         | Overtime compensation    |
+| total_other_pay       | Other payments           |
+| agency_start_date     | Start date               |
 
 ---
 
-## Data Cleaning and Feature Engineering
+## Data Cleaning and Feature Engineering (Student A)
 
-Before analysis, several preprocessing steps were performed:
+Data preprocessing steps:
 
-* Converted string fields representing numbers into numeric types
-* Converted `agency_start_date` to a datetime format
-* Checked and handled missing values
-* Identified and filtered anomalous records (e.g., negative hours or compensation)
+* Converted string-based numeric fields into proper numeric types
+* Parsed `agency_start_date` into datetime
+* Handled missing values and removed invalid records
+* Filtered anomalies (e.g., negative compensation or hours)
 
-Several derived variables were created:
+### Engineered Features
 
 * **total_compensation**
-  `regular_gross_paid + total_ot_paid + total_other_pay`
+  = regular_gross_paid + total_ot_paid + total_other_pay
 
 * **tenure_years**
-  Employee tenure calculated from `agency_start_date`
+  = years since agency_start_date
 
 * **overtime_share**
-  Percentage of total income coming from overtime pay
+  = total_ot_paid / total_compensation
 
 * **other_pay_share**
-  Percentage of income from other payments
+  = total_other_pay / total_compensation
 
 * **high_pay (target variable)**
-  Binary variable indicating whether total compensation exceeds the dataset median
+  = 1 if total_compensation > median, else 0
 
 ---
 
-## Exploratory Data Analysis
-
-The EDA phase investigates patterns in employee compensation through visualizations and grouped analysis.
+## Exploratory Data Analysis (Student A)
 
 Key analyses include:
 
 * Distribution of salary and total compensation
-* Distribution of overtime hours and overtime pay
-* Differences in compensation across boroughs and pay types
+* Overtime usage patterns
+* Compensation differences across boroughs and agencies
 * Relationship between base salary and total earnings
-* Comparison of compensation structures across agencies
-* Overtime dependence across different job groups
+* Compensation composition across job types
 
-The goal of this stage is to identify meaningful patterns and generate insights about how employee compensation is structured.
+### Key EDA Insights
+
+* Compensation is **highly right-skewed**
+* Overtime significantly increases total income for certain roles
+* Strong heterogeneity across agencies and job categories
 
 ---
 
-## Machine Learning Analysis
+## Advanced Analysis & Interpretation (Student B)
 
-A simple classification task was implemented to predict whether an employee belongs to the **high-pay group**.
+### Agency-Level Inequality
 
-### Target Variable
+* Significant variation in compensation across agencies
+* Indicates structural differences in:
 
-`high_pay`
+  * Budget allocation
+  * Job specialization
+  * Operational demand
 
-Employees with total compensation above the dataset median are labeled as **1**, and others as **0**.
+---
 
-### Models Used
+### Overtime as a Key Driver
 
-Two models were implemented:
+* High-income employees:
 
-* **Logistic Regression**
+  * Work more overtime
+  * Depend more on overtime pay
+
+* Suggests compensation is **workload-driven**, not purely salary-based
+
+---
+
+### Compensation Structure Differences
+
+Employees fall into distinct groups:
+
+* Salary-dominant income
+* Overtime-heavy income
+* Mixed compensation structures
+
+---
+
+### Correlation Analysis
+
+* Strong: base salary ↔ total compensation
+* Moderate: overtime pay ↔ total compensation
+* Weak: location ↔ compensation
+
+Conclusion:
+→ Financial variables dominate
+→ Demographic/location variables less important
+
+---
+
+## Machine Learning Analysis (Student B)
+
+### Task
+
+Binary classification: predict **high_pay**
+
+---
+
+### Models
+
+* Logistic Regression
+* Random Forest (feature importance)
+
+---
 
 ### Evaluation Metrics
-
-Models were evaluated using:
 
 * Precision
 * Recall
 * F1-score
 
-Random Forest was also used to examine **feature importance**, helping identify which factors most strongly influence high compensation.
-
 ---
 
-## Key Findings
+### Results
 
-Some major observations from the analysis include:
-
-* Employee compensation is highly right-skewed, with a small number of workers earning significantly higher total pay.
-* Overtime pay contributes substantially to total earnings for some job categories.
-* Compensation patterns vary significantly across agencies and job titles.
-* Base salary and overtime participation appear to be strong predictors of high-pay status.
-
-
-
-
-
-
-# Student B section
-# Advanced Analysis and Interpretation
-
-## Advanced Analysis
-
-Building on the initial exploratory data analysis, this section focuses on deeper patterns in compensation structure, relationships between variables, and predictive insights.
-
-### Agency-Level Compensation Inequality
-
-Analysis across agencies shows that compensation is not evenly distributed. Certain agencies consistently exhibit higher total compensation levels compared to others.
-
-This suggests that budget allocation, job specialization, and operational demands vary significantly across agencies, leading to structural differences in pay.
-
-### Overtime as a Driver of High Compensation
-
-One of the most important findings is the strong role of overtime pay in driving total compensation.
-
-Employees with the highest earnings tend to:
-- Work significantly more overtime hours
-- Derive a larger proportion of their income from overtime pay
-
-This indicates that high compensation is not solely determined by base salary, but is heavily influenced by overtime participation and workload distribution.
-
-### Differences in Compensation Structure
-
-The composition of total compensation varies across employees:
-
-- Some rely primarily on base salary
-- Others receive a substantial portion of income from overtime or other pay
-
-These differences highlight that compensation structures are not uniform and depend on job roles and agency practices.
-
-### Correlation Analysis
-
-Correlation analysis reveals several key relationships:
-
-- A strong positive relationship between base salary and total compensation
-- A moderate relationship between overtime pay and total compensation
-- Weak relationships between categorical variables (such as borough) and pay levels
-
-This suggests that financial variables are the dominant drivers of compensation outcomes, while location plays a less significant role.
-
----
-
-## Machine Learning Interpretation
-
-The classification models provide further insight into the factors associated with high compensation.
-
-### Key Observations
-
-- Logistic Regression indicates that base salary and overtime pay are strong predictors of high-pay status
-- Tenure has a smaller but still noticeable effect
-- Random Forest results confirm that overtime-related variables are among the most important features
+* Base salary = strongest predictor
+* Overtime variables = highly influential
+* Tenure = secondary factor
 
 ### Interpretation
 
-These results reinforce the findings from the exploratory analysis:
+Machine learning results **confirm EDA findings**:
 
-High compensation is largely driven by a combination of base salary and overtime participation. The consistency between statistical analysis and machine learning results suggests that these relationships are stable and meaningful.
+> High compensation = Base Salary + Overtime Participation
 
 ---
 
 ## Key Insights
 
-From the combined analysis, several major insights emerge:
+1. **Compensation Inequality**
+   Income distribution is highly skewed
 
-1. **Compensation Inequality**  
-   Income distribution is highly skewed, with a small number of employees earning significantly more than others.
+2. **Overtime Dependence**
+   Overtime is a major driver of high earnings
 
-2. **Overtime Dependence**  
-   Overtime is a major contributor to high earnings for certain employees and roles.
+3. **Agency & Role Effects**
+   Strong structural differences exist
 
-3. **Agency and Role Effects**  
-   Compensation varies substantially across agencies and job types, indicating structural differences.
-
-4. **Predictability of High Pay**  
-   High compensation can be reasonably predicted using a small set of financial variables.
+4. **Predictability**
+   High pay can be predicted using a small set of features
 
 ---
 
 ## Implications
 
-The findings have several broader implications:
+* **Policy**
+  Heavy overtime may indicate staffing inefficiencies
 
-- **Policy Implications**  
-  Heavy reliance on overtime may indicate staffing shortages or inefficient allocation of labor.
+* **Equity**
+  Compensation differences raise fairness concerns
 
-- **Equity Considerations**  
-  Uneven compensation structures may raise concerns about fairness across agencies and job roles.
-
-- **Workforce Planning**  
-  Organizations may need to reassess compensation strategies to ensure sustainability and balance.
+* **Workforce Planning**
+  Need to balance workload and compensation structures
 
 ---
 
 ## Limitations
 
-This analysis has several limitations:
-
-- The dataset represents a sample and may not capture the full NYC workforce
-- Data quality issues (e.g., missing or inconsistent values) may affect results
-- The analysis is observational and does not establish causal relationships
+* Sample dataset (not full population)
+* Data quality issues (missing/inconsistent values)
+* Observational → no causal inference
 
 ---
 
 ## Conclusion
 
-This analysis shows that employee compensation in NYC is shaped by a combination of base salary, overtime participation, and agency-level factors.
+NYC employee compensation is driven by:
 
-While base salary provides a baseline, overtime plays a critical role in driving high earnings. The presence of inequality and variation across agencies suggests that compensation is influenced by structural and institutional factors.
-
-Future research could explore:
-- Trends over multiple years
-- Causal relationships between workload and compensation
-- Policy interventions to improve fairness and efficiency
+* Base salary (baseline)
+* Overtime participation (key differentiator)
+* Agency-level structure (systemic factor)
